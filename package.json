@@ -1,0 +1,14 @@
+{
+  "name": "class-memorial-site",
+  "version": "1.0.0",
+  "description": "毕业班纪念站：班级大事记、同学照片、毕业寄语、时间倒计时、回忆审核与资料导出",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "dev": "node --watch server.js"
+  },
+  "engines": {
+    "node": ">=18"
+  },
+  "license": "MIT"
+}

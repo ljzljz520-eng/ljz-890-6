@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="icon" href="/favicon.svg">
+  <title>老师后台 · 毕业班纪念站</title>
+  <link rel="stylesheet" href="/css/style.css">
+</head>
+<body class="admin-body">
+  <header class="admin-top">
+    <div class="inner">
+      <div class="title">🎓 <span>毕业班纪念站 · 老师后台</span></div>
+      <div class="btn-row">
+        <a class="btn ghost sm" href="/" target="_blank">查看公开页 ↗</a>
+        <button class="btn secondary sm" id="logout-btn">退出登录</button>
+      </div>
+    </div>
+  </header>
+
+  <div class="tabs" id="tabs">
+    <button class="tab active" data-tab="dashboard">概览</button>
+    <button class="tab" data-tab="review">回忆审核<span class="dot" id="pending-dot" style="display:none">0</span></button>
+    <button class="tab" data-tab="milestones">大事记</button>
+    <button class="tab" data-tab="photos">同学照片</button>
+    <button class="tab" data-tab="wishes">毕业寄语</button>
+    <button class="tab" data-tab="settings">站点与倒计时</button>
+    <button class="tab" data-tab="export">导出留档</button>
+  </div>
+
+  <main class="admin-main">
+
+    <!-- 概览 -->
+    <section class="tabpane active" id="pane-dashboard">
+      <div class="stat-row" id="stat-row"></div>
+      <div class="panel">
+        <div class="section-title-row">
+          <h3>使用说明</h3>
+        </div>
+        <ul style="margin:0;padding-left:20px;color:#6b5d52;font-size:14.5px;line-height:2">
+          <li><b>回忆审核</b>：学生提交的回忆默认不公开，在此通过或退回；学生留下的联系方式仅您可见。</li>
+          <li><b>大事记 / 照片 / 寄语</b>：维护公开页内容，修改保存后即时生效。</li>
+          <li><b>站点与倒计时</b>：设置学校班级、毕业日期与公开页公告，倒计时自动计算。</li>
+          <li><b>导出留档</b>：可导出完整 JSON 归档（含照片与联系方式）、回忆明细 CSV、公开版 Markdown 编年。</li>
+          <li>公开页面不会展示任何联系方式，公开版编年导出同样不含隐私信息。</li>
+        </ul>
+      </div>
+    </section>
+
+    <!-- 审核 -->
+    <section class="tabpane" id="pane-review">
+      <div class="filter-bar">
+        <button class="chip active" data-filter="pending">待审核</button>
+        <button class="chip" data-filter="approved">已通过</button>
+        <button class="chip" data-filter="rejected">未通过</button>
+        <button class="chip" data-filter="all">全部</button>
+      </div>
+      <div id="review-list"></div>
+    </section>
+
+    <!-- 大事记 -->
+    <section class="tabpane" id="pane-milestones">
+      <div class="panel" style="margin-bottom:20px">
+        <div class="section-title-row"><h3>➕ 添加大事记</h3></div>
+        <form id="ms-form">
+          <div class="form-grid">
+            <label class="field"><span>日期 *</span><input type="date" name="date" required></label>
+            <label class="field"><span>标题 *</span><input type="text" name="title" maxlength="60" required placeholder="例如：秋季运动会"></label>
+          </div>
+          <label class="field"><span>内容</span><textarea name="content" maxlength="2000" placeholder="记录这一天发生的故事…"></textarea></label>
+          <button class="btn" type="submit">保存大事记</button>
+        </form>
+      </div>
+      <div id="ms-list"></div>
+    </section>
+
+    <!-- 照片 -->
+    <section class="tabpane" id="pane-photos">
+      <div class="panel" style="margin-bottom:20px">
+        <div class="section-title-row"><h3>📷 上传同学照片</h3></div>
+        <form id="ph-form">
+          <label class="field"><span>选择照片 *（JPG/PNG/WEBP/GIF，4MB 以内）</span>
+            <input type="file" name="photo" accept="image/jpeg,image/png,image/webp,image/gif" required>
+            <div id="ph-preview"></div>
+          </label>
+          <div class="form-grid">
+            <label class="field"><span>标题</span><input type="text" name="title" maxlength="60" placeholder="例如：毕业合影"></label>
+            <label class="field"><span>说明</span><input type="text" name="description" maxlength="500" placeholder="一句话记录这张照片"></label>
+          </div>
+          <button class="btn" type="submit" id="ph-submit">上传照片</button>
+        </form>
+      </div>
+      <div class="photo-admin-grid" id="ph-list"></div>
+    </section>
+
+    <!-- 寄语 -->
+    <section class="tabpane" id="pane-wishes">
+      <div class="panel" style="margin-bottom:20px">
+        <div class="section-title-row"><h3>✉️ 添加毕业寄语</h3></div>
+        <form id="w-form">
+          <div class="form-grid">
+            <label class="field"><span>老师姓名 *</span><input type="text" name="author" maxlength="30" required placeholder="例如：王老师"></label>
+            <label class="field"><span>身份</span><input type="text" name="role" maxlength="30" placeholder="例如：班主任 / 数学老师"></label>
+          </div>
+          <label class="field"><span>寄语内容 *</span><textarea name="content" maxlength="1000" required placeholder="给同学们的话…"></textarea></label>
+          <button class="btn" type="submit">发布寄语</button>
+        </form>
+      </div>
+      <div id="w-list"></div>
+    </section>
+
+    <!-- 设置 -->
+    <section class="tabpane" id="pane-settings">
+      <div class="panel" style="max-width:720px">
+        <div class="section-title-row"><h3>⚙️ 站点信息与时间倒计时</h3></div>
+        <form id="set-form">
+          <div class="form-grid">
+            <label class="field"><span>学校名称 *</span><input type="text" name="schoolName" maxlength="60" required></label>
+            <label class="field"><span>班级名称 *</span><input type="text" name="className" maxlength="60" required></label>
+            <label class="field"><span>毕业日期 *（倒计时依据）</span><input type="date" name="graduationDate" required></label>
+            <label class="field"><span>一句话标语</span><input type="text" name="tagline" maxlength="120"></label>
+          </div>
+          <label class="field"><span>公开页公告</span><textarea name="notice" maxlength="300" style="min-height:70px"></textarea></label>
+          <button class="btn" type="submit" id="set-save">保存设置</button>
+        </form>
+      </div>
+    </section>
+
+    <!-- 导出 -->
+    <section class="tabpane" id="pane-export">
+      <div class="panel" style="margin-bottom:20px">
+        <div class="section-title-row">
+          <h3>🗄️ 资料导出留档</h3>
+          <span style="font-size:13px;color:var(--ink-soft)">导出链接带登录凭证，请勿外传完整归档</span>
+        </div>
+        <div class="export-grid">
+          <div class="export-card">
+            <div class="ico">📦</div>
+            <h4>完整 JSON 归档</h4>
+            <p>包含大事记、照片（内嵌图片数据）、寄语、<b>全部回忆及联系方式</b>。单文件即可长期留档，也可用于将来迁移恢复。</p>
+            <a class="btn" href="/api/admin/export/json">下载 JSON</a>
+          </div>
+          <div class="export-card">
+            <div class="ico">📊</div>
+            <h4>同学回忆明细 CSV</h4>
+            <p>全部回忆（含待审核/未通过）、审核状态、备注与联系方式。可用 Excel / WPS 打开整理。</p>
+            <a class="btn secondary" href="/api/admin/export/csv">下载 CSV</a>
+          </div>
+          <div class="export-card">
+            <div class="ico">📜</div>
+            <h4>公开版 Markdown 编年</h4>
+            <p>按时间编排的毕业纪念册：大事记、寄语、已通过回忆与照片目录。<b>不含任何联系方式</b>，可直接打印或分享。</p>
+            <a class="btn sage" href="/api/admin/export/md">下载 Markdown</a>
+          </div>
+        </div>
+      </div>
+      <div class="panel" style="max-width:720px">
+        <h4 style="margin-top:0">隐私与留档说明</h3>
+        <ul style="margin:0;padding-left:20px;color:#6b5d52;font-size:14px;line-height:1.9">
+          <li>服务器数据保存在 <code>data/db.json</code>，上传的照片保存在 <code>uploads/</code> 目录。</li>
+          <li>建议每学期末下载一次完整 JSON 归档，毕业后随班级资料永久保存。</li>
+          <li>公开页、公开下载链接均自动过滤联系方式字段。</li>
+        </ul>
+      </div>
+    </section>
+
+  </main>
+
+  <script src="/js/common.js"></script>
+  <script src="/js/admin.js"></script>
+</body>
+</html>

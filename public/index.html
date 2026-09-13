@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="icon" href="/favicon.svg">
+  <title>毕业班纪念站</title>
+  <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+  <header class="site-header">
+    <div class="container">
+      <nav class="nav">
+        <div class="brand"><span class="logo">🎓</span><span id="nav-class">毕业班纪念站</span></div>
+        <div class="nav-links">
+          <a href="#milestones">大事记</a>
+          <a href="#gallery">同学照片</a>
+          <a href="#wishes">毕业寄语</a>
+          <a href="#memories">同学回忆</a>
+          <a href="#submit">写下回忆</a>
+        </div>
+      </nav>
+    </div>
+    <div class="hero">
+      <div class="badge">CLASS OF OURS · 青春存档</div>
+      <h1 id="hero-title">我们的毕业班</h1>
+      <p class="tagline" id="hero-tagline"></p>
+      <div class="countdown-wrap">
+        <div class="countdown" id="countdown">
+          <span class="num" id="cd-num">--</span>
+          <span class="unit" id="cd-unit">天</span>
+          <span class="date" id="cd-date"></span>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <!-- 大事记 -->
+  <section class="block" id="milestones">
+    <div class="container">
+      <div class="block-head">
+        <h2>班级大事记</h2>
+        <p>那些把我们连在一起的日子</p>
+      </div>
+      <div class="timeline" id="timeline"><div class="empty">大事记整理中…</div></div>
+    </div>
+  </section>
+
+  <!-- 照片 -->
+  <section class="block tint-alt" id="gallery">
+    <div class="container">
+      <div class="block-head">
+        <h2>同学照片</h2>
+        <p>定格的笑靥，是青春最好的注脚</p>
+      </div>
+      <div class="gallery" id="gallery-grid"><div class="empty">照片上传中…</div></div>
+    </div>
+  </section>
+
+  <!-- 寄语 -->
+  <section class="block" id="wishes">
+    <div class="container">
+      <div class="block-head">
+        <h2>毕业寄语</h2>
+        <p>老师的话，装进行囊再出发</p>
+      </div>
+      <div class="wishes" id="wishes-grid"><div class="empty">寄语即将送达…</div></div>
+    </div>
+  </section>
+
+  <!-- 回忆 -->
+  <section class="block tint-alt" id="memories">
+    <div class="container">
+      <div class="block-head">
+        <h2>同学回忆</h2>
+        <p>经老师审核后的回忆将在这里展示</p>
+      </div>
+      <div class="memories" id="memories-grid"><div class="empty">还没有回忆，来做第一个分享的人吧。</div></div>
+    </div>
+  </section>
+
+  <!-- 提交回忆 -->
+  <section class="block" id="submit">
+    <div class="container" style="max-width:720px">
+      <div class="block-head">
+        <h2>写下你的回忆</h2>
+        <p>提交后将由老师审核，通过后公开展示</p>
+      </div>
+      <div class="panel">
+        <div class="privacy-note">
+          <span>🔒</span>
+          <span><b>隐私保护：</b>联系方式仅老师在审核时可见，<b>不会出现在公开页面</b>，也不会写入公开导出资料。请不要在回忆正文中写入他人的手机号、住址等隐私信息。</span>
+        </div>
+        <form id="memory-form">
+          <div class="form-grid">
+            <label class="field"><span>姓名 / 昵称 *</span>
+              <input type="text" name="name" maxlength="30" required placeholder="例如：陈一然">
+            </label>
+            <label class="field"><span>联系方式（仅老师可见，选填）</span>
+              <input type="text" name="contact" maxlength="200" placeholder="手机号 / 微信 / 邮箱">
+            </label>
+          </div>
+          <label class="field"><span>回忆内容 *</span>
+            <textarea name="content" maxlength="1000" required placeholder="写下你最想珍藏的一段班级记忆（至少 5 个字）"></textarea>
+            <span class="hint"><span id="content-count">0</span>/1000</span>
+          </label>
+          <label class="field"><span>配一张照片（选填，JPG/PNG/WEBP，4MB 以内）</span>
+            <input type="file" name="photo" accept="image/jpeg,image/png,image/webp,image/gif">
+            <div id="photo-preview"></div>
+          </label>
+          <div class="btn-row">
+            <button class="btn" type="submit" id="submit-btn">提交回忆</button>
+            <a class="btn ghost" href="/api/export/chronicle.md">⬇ 下载公开版毕业编年</a>
+          </div>
+        </form>
+      </div>
+    </div>
+  </section>
+
+  <footer class="site-footer">
+    <div class="container">
+      <p id="footer-notice"></p>
+      <p>愿此去繁花似锦，相逢依然如故 · <a href="/admin/">老师入口</a></p>
+    </div>
+  </footer>
+
+  <script src="/js/common.js"></script>
+  <script src="/js/public.js"></script>
+</body>
+</html>
